@@ -1,0 +1,153 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap">
+
+<style>
+  .testimonials-section {
+    padding: 100px 20px;
+    background: #ffffff;
+    overflow: hidden;
+  }
+  
+  .testimonials-container {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  
+  .testimonials-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  
+  .testimonials-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 600;
+    margin: 0 0 16px;
+    color: #1a1a1a;
+  }
+  
+  .testimonials-subtitle {
+    font-size: 16px;
+    color: #6b7280;
+  }
+  
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+  }
+  
+  .testimonial-card {
+    background: #f8f9fa;
+    padding: 32px;
+    border-radius: 20px;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+  }
+  
+  .testimonial-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+  }
+  
+  .testimonial-stars {
+    color: #d4a574;
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  
+  .testimonial-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #1a1a1a;
+    margin: 0 0 24px;
+    font-style: italic;
+  }
+  
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .testimonial-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d4a574 0%, #c9a66b 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  
+  .testimonial-name {
+    font-weight: 600;
+    color: #1a1a1a;
+    font-size: 15px;
+  }
+  
+  .testimonial-verified {
+    font-size: 12px;
+    color: #16a34a;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+</style>
+
+<section class="testimonials-section">
+  <div class="testimonials-container">
+    <div class="testimonials-header scroll-reveal">
+      <h2 class="testimonials-title">What Our Customers Say</h2>
+      <p class="testimonials-subtitle">Trusted by thousands of satisfied customers worldwide</p>
+    </div>
+    
+    <div class="testimonials-grid">
+      <div class="testimonial-card scroll-reveal">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">"Absolutely blown away by the quality. Every detail is perfect. This is what premium looks like."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AM</div>
+          <div>
+            <div class="testimonial-name">Alex Martinez</div>
+            <div class="testimonial-verified">✓ Verified Buyer</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testimonial-card scroll-reveal delay-100">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">"Best investment I've made this year. The craftsmanship is unmatched and customer service is incredible."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SC</div>
+          <div>
+            <div class="testimonial-name">Sarah Chen</div>
+            <div class="testimonial-verified">✓ Verified Buyer</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testimonial-card scroll-reveal delay-200">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">"Lightning-fast shipping and packaging is museum-quality. This brand sets the standard for excellence."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MJ</div>
+          <div>
+            <div class="testimonial-name">Michael Johnson</div>
+            <div class="testimonial-verified">✓ Verified Buyer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": []
+}
+{% endschema %}

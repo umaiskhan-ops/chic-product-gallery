@@ -1,0 +1,100 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap">
+
+<style>
+  .why-section {
+    padding: 80px 20px;
+    background: #f8f9fa;
+  }
+  
+  .why-container {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+  }
+  
+  .why-card {
+    text-align: center;
+    padding: 40px 24px;
+    background: #ffffff;
+    border-radius: 16px;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+  }
+  
+  .why-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+  }
+  
+  .why-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    display: inline-block;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  
+  .why-card:hover .why-icon {
+    animation: bounce 0.6s ease-in-out;
+  }
+  
+  .why-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 12px;
+  }
+  
+  .why-desc {
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.6;
+  }
+  
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+</style>
+
+<section class="why-section">
+  <div class="why-container">
+    <div class="why-grid">
+      <div class="why-card scroll-reveal">
+        <div class="why-icon">🚚</div>
+        <h3 class="why-title">Fast Delivery</h3>
+        <p class="why-desc">Lightning-fast shipping in 2-3 business days worldwide</p>
+      </div>
+      
+      <div class="why-card scroll-reveal delay-100">
+        <div class="why-icon">🔒</div>
+        <h3 class="why-title">Secure Payment</h3>
+        <p class="why-desc">100% secure checkout with SSL encryption</p>
+      </div>
+      
+      <div class="why-card scroll-reveal delay-200">
+        <div class="why-icon">⭐</div>
+        <h3 class="why-title">Premium Quality</h3>
+        <p class="why-desc">Handpicked products that exceed expectations</p>
+      </div>
+      
+      <div class="why-card scroll-reveal delay-300">
+        <div class="why-icon">↩️</div>
+        <h3 class="why-title">Easy Returns</h3>
+        <p class="why-desc">30-day hassle-free return policy guaranteed</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Why Choose Us",
+  "settings": []
+}
+{% endschema %}

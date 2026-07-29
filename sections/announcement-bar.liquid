@@ -1,0 +1,92 @@
+<style>
+  .announcement-bar {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    color: #ffffff;
+    padding: 12px 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 99;
+  }
+  
+  .announcement-marquee {
+    display: flex;
+    white-space: nowrap;
+    animation: marqueeScroll 30s linear infinite;
+  }
+  
+  .announcement-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 40px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  
+  .announcement-icon {
+    margin-right: 8px;
+    font-size: 16px;
+  }
+  
+  @keyframes marqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  
+  .announcement-bar:hover .announcement-marquee {
+    animation-play-state: paused;
+  }
+</style>
+
+<div class="announcement-bar">
+  <div class="announcement-marquee">
+    <span class="announcement-item">
+      <span class="announcement-icon">🚚</span>
+      Free Shipping Worldwide
+    </span>
+    <span class="announcement-item">
+      <span class="announcement-icon">✨</span>
+      Premium Quality Products
+    </span>
+    <span class="announcement-item">
+      <span class="announcement-icon">🔥</span>
+      Limited Time Offers
+    </span>
+    <span class="announcement-item">
+      <span class="announcement-icon">⚡</span>
+      Fast Delivery in 2-3 Days
+    </span>
+    <span class="announcement-item">
+      <span class="announcement-icon">🎁</span>
+      Special Gift with Every Order
+    </span>
+    <!-- Duplicate for seamless loop -->
+    <span class="announcement-item">
+      <span class="announcement-icon">🚚</span>
+      Free Shipping Worldwide
+    </span>
+    <span class="announcement-item">
+      <span class="announcement-icon">✨</span>
+      Premium Quality Products
+    </span>
+    <span class="announcement-item">
+      <span class="announcement-icon">🔥</span>
+      Limited Time Offers
+    </span>
+    <span class="announcement-item">
+      <span class="announcement-icon">⚡</span>
+      Fast Delivery in 2-3 Days
+    </span>
+    <span class="announcement-item">
+      <span class="announcement-icon">🎁</span>
+      Special Gift with Every Order
+    </span>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": []
+}
+{% endschema %}
