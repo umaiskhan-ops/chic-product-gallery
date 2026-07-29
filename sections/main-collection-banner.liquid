@@ -1,0 +1,21 @@
+<div style="padding: 60px 20px; text-align: center; background: #f8f9fa;">
+  <div style="max-width: 1280px; margin: 0 auto;">
+    <h1 style="font-family: 'Playfair Display', Georgia, serif; font-size: 48px; font-weight: 600; margin: 0 0 16px; color: #1a1a1a;">
+      {{ collection.title | default: shop.name }}
+    </h1>
+    {%- if collection.description != blank -%}
+      <div style="font-size: 16px; color: #6b7280; max-width: 600px; margin: 0 auto;">
+        {{ collection.description }}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection Banner",
+  "tag": "section",
+  "class": "section-collection-banner",
+  "settings": []
+}
+{% endschema %}
