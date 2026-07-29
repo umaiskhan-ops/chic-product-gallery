@@ -73,6 +73,47 @@
     transform: scale(1.15) rotate(2deg);
   }
   
+  .quick-add {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    padding: 14px 24px;
+    background: #1a1a1a;
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 2;
+  }
+  
+  .product-card:hover .quick-add {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .quick-add:hover {
+    background: #d4a574;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(212, 165, 116, 0.4);
+  }
+  
+  .quick-add.loading {
+    pointer-events: none;
+    background: #d4a574;
+  }
+  
+  .quick-add.success {
+    background: #16a34a;
+  }
+  
   .product-info {
     padding: 20px;
   }
@@ -200,6 +241,10 @@
               {%- else -%}
                 {{ 'product-1' | placeholder_svg_tag }}
               {%- endif -%}
+              
+              <button class="quick-add" data-quick-add data-product-id="{{ product.variants.first.id }}">
+                Quick Add
+              </button>
             </div>
             
             <div class="product-info">
@@ -232,6 +277,47 @@
     {%- endif -%}
   </div>
 </section>
+
+<script>
+document.querySelectorAll('[data-quick-add]').forEach(btn => {
+  btn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const variantId = btn.dataset.productId;
+    const originalText = btn.textContent;
+    
+    btn.classList.add('loading');
+    btn.textContent = 'Adding...';
+    
+    try {
+      const res = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: variantId, quantity: 1 })
+      });
+      
+      if (res.ok) {
+        btn.classList.remove('loading');
+        btn.classList.add('success');
+        btn.textContent = 'Added ✓';
+        
+        // Trigger cart update event
+        document.dispatchEvent(new CustomEvent('cart:updated'));
+        
+        setTimeout(() => {
+          btn.classList.remove('success');
+          btn.textContent = originalText;
+        }, 2000);
+      }
+    } catch (err) {
+      btn.classList.remove('loading');
+      btn.textContent = 'Error';
+      setTimeout(() => {
+        btn.textContent = originalText;
+      }, 2000);
+    }
+  });
+});
+</script>
 
 {% schema %}
 {
