@@ -1,0 +1,89 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<parameter name="text"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap">
+
+<style>
+  .collection-banner {
+    padding: 80px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    position: relative;
+  }
+  
+  .collection-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 70% 50%, rgba(212, 165, 116, 0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  
+  .collection-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .collection-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 600;
+    margin: 0 0 20px;
+    color: #1a1a1a;
+  }
+  
+  .collection-description {
+    font-size: 17px;
+    color: #6b7280;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .collection-count {
+    display: inline-block;
+    margin-top: 24px;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #d4a574;
+    font-weight: 600;
+  }
+  
+  @media (max-width: 768px) {
+    .collection-banner {
+      padding: 60px 20px;
+    }
+  }
+</style>
+
+<section class="collection-banner">
+  <div class="collection-content">
+    <h1 class="collection-title">{{ collection.title | default: shop.name }}</h1>
+    
+    {%- if collection.description != blank -%}
+      <div class="collection-description">
+        {{ collection.description }}
+      </div>
+    {%- endif -%}
+    
+    {%- if collection.products_count > 0 -%}
+      <span class="collection-count">
+        {{ collection.products_count }} {{ collection.products_count | pluralize: 'Product', 'Products' }}
+      </span>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection Banner",
+  "tag": "section",
+  "class": "section-collection-banner",
+  "settings": []
+}
+{% endschema %}

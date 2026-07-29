@@ -1,12 +1,25 @@
 {
   "sections": {
-    "main": {
-      "type": "main-collection-banner",
+    "hero": {
+      "type": "hero-banner",
       "settings": {
+        "heading": "Discover Your Perfect Style",
+        "subheading": "Curated fashion pieces that elevate your wardrobe. Shop by color, find your look.",
+        "button_label": "Shop Collection",
+        "button_link": "/collections/all"
+      }
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Featured Products",
+        "collection": "all",
+        "products_to_show": 8
       }
     }
   },
   "order": [
-    "main"
+    "hero",
+    "featured"
   ]
 }
