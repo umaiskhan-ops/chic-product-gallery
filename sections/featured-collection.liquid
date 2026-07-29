@@ -173,7 +173,7 @@
       </div>
     {%- endif -%}
     
-    {%- if collection.products.size > 0 -%}
+    {%- if collection and collection.products.size > 0 -%}
       <div class="product-grid">
         {%- for product in collection.products limit: products_to_show -%}
           <a href="{{ product.url }}" class="product-card">
