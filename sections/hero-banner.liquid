@@ -43,7 +43,7 @@
     font-family: 'Playfair Display', Georgia, serif;
     font-size: clamp(42px, 6vw, 72px);
     font-weight: 600;
-    line-height: 1.1;
+    line-height: 1.2;
     margin: 0 0 24px;
     color: #1a1a1a;
   }
@@ -98,7 +98,13 @@
 
   <div class="hero-content">
     <span class="hero-badge animate-fadeInDown delay-100">{{ section.settings.badge | default: "New Collection" }}</span>
-    <h1 class="hero-heading animate-fadeInUp delay-200">{{ section.settings.heading }}</h1>
+    <h1 class="hero-heading animate-fadeInUp delay-200">
+      {% assign heading_parts = section.settings.heading | split: '<br>' %}
+      <span style="font-size: 1em; font-weight: 700; display: block;">{{ heading_parts[0] }}</span>
+      {% if heading_parts[1] %}
+        <span style="font-size: 0.65em; font-weight: 400; display: block; margin-top: 8px;">{{ heading_parts[1] }}</span>
+      {% endif %}
+    </h1>
     <p class="hero-subheading animate-fadeInUp delay-300">{{ section.settings.subheading }}</p>
     {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
       <a href="{{ section.settings.button_link }}" class="hero-button animate-scaleIn delay-400">

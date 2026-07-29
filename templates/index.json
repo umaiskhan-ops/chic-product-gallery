@@ -4,7 +4,7 @@
       "type": "hero-banner",
       "settings": {
         "badge": "New Collection",
-        "heading": "Discover Premium Quality Designed for Modern Lifestyle",
+        "heading": "Discover Premium Quality<br>Designed for Modern Lifestyle",
         "subheading": "Curated fashion pieces that elevate your wardrobe. Shop by color, find your signature look.",
         "button_label": "Shop Now",
         "button_link": "/collections/all"
