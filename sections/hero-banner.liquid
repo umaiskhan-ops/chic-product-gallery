@@ -87,12 +87,21 @@
 </style>
 
 <section class="hero-banner">
+  <!-- Animated Marquee -->
+  <div style="overflow: hidden; margin-bottom: 32px;">
+    <div class="animate-marquee" style="display: inline-block; white-space: nowrap;">
+      <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(212, 165, 116, 0.4); padding-right: 60px;">
+        ✨ New Arrivals • Free Shipping • Premium Quality • Exclusive Designs • Limited Edition • New Arrivals • Free Shipping • Premium Quality •
+      </span>
+    </div>
+  </div>
+
   <div class="hero-content">
-    <span class="hero-badge">{{ section.settings.badge | default: "New Collection" }}</span>
-    <h1 class="hero-heading">{{ section.settings.heading }}</h1>
-    <p class="hero-subheading">{{ section.settings.subheading }}</p>
+    <span class="hero-badge animate-fadeInDown delay-100">{{ section.settings.badge | default: "New Collection" }}</span>
+    <h1 class="hero-heading animate-fadeInUp delay-200">{{ section.settings.heading }}</h1>
+    <p class="hero-subheading animate-fadeInUp delay-300">{{ section.settings.subheading }}</p>
     {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
-      <a href="{{ section.settings.button_link }}" class="hero-button">
+      <a href="{{ section.settings.button_link }}" class="hero-button animate-scaleIn delay-400">
         {{ section.settings.button_label }}
       </a>
     {%- endif -%}
