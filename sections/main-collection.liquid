@@ -1,0 +1,477 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap">
+
+<style>
+  .collection-page {
+    background: #ffffff;
+    padding-bottom: 80px;
+  }
+  
+  .collection-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    padding: 80px 20px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .collection-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(212, 165, 116, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  
+  .collection-header-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .collection-badge {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: linear-gradient(135deg, #d4a574 0%, #c9a66b 100%);
+    padding: 8px 20px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
+  }
+  
+  .collection-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 600;
+    margin: 0 0 16px;
+    color: #1a1a1a;
+  }
+  
+  .collection-description {
+    font-size: 16px;
+    color: #6b7280;
+    line-height: 1.7;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .collection-count {
+    font-size: 14px;
+    color: #d4a574;
+    font-weight: 600;
+    margin-top: 16px;
+  }
+  
+  .collection-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 60px 20px 0;
+  }
+  
+  .collection-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .collection-sort {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .sort-label {
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 600;
+  }
+  
+  .sort-select {
+    padding: 10px 36px 10px 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 999px;
+    font-size: 14px;
+    font-family: inherit;
+    background: #ffffff;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+  }
+  
+  .sort-select:focus {
+    outline: none;
+    border-color: #d4a574;
+  }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 32px;
+  }
+  
+  .product-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #f8f9fa;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), 
+                box-shadow 0.5s ease;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+  }
+  
+  .product-image {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #e9ecef;
+    position: relative;
+  }
+  
+  .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  
+  .product-card:hover .product-image img {
+    transform: scale(1.15) rotate(2deg);
+  }
+  
+  .quick-add {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    padding: 14px 24px;
+    background: #1a1a1a;
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 2;
+  }
+  
+  .product-card:hover .quick-add {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .quick-add:hover {
+    background: #d4a574;
+    transform: translateY(-3px);
+  }
+  
+  .product-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #d4a574;
+    color: #ffffff;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: 600;
+    z-index: 1;
+  }
+  
+  .product-info {
+    padding: 20px;
+  }
+  
+  .product-vendor {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #d4a574;
+    margin: 0 0 8px;
+    font-weight: 600;
+  }
+  
+  .product-title {
+    font-size: 17px;
+    font-weight: 500;
+    margin: 0 0 12px;
+    color: #1a1a1a;
+    line-height: 1.3;
+  }
+  
+  .product-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+  
+  .product-price-compare {
+    font-size: 14px;
+    color: #6b7280;
+    text-decoration: line-through;
+    margin-left: 8px;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 80px;
+  }
+  
+  .pagination-item {
+    min-width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #e9ecef;
+    border-radius: 50%;
+    color: #6b7280;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .pagination-item:hover {
+    border-color: #d4a574;
+    color: #d4a574;
+  }
+  
+  .pagination-item.active {
+    background: #d4a574;
+    border-color: #d4a574;
+    color: #ffffff;
+  }
+  
+  .empty-collection {
+    text-align: center;
+    padding: 80px 20px;
+  }
+  
+  .empty-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    opacity: 0.3;
+  }
+  
+  .empty-text {
+    font-size: 16px;
+    color: #6b7280;
+    margin-bottom: 32px;
+  }
+  
+  .empty-btn {
+    display: inline-block;
+    padding: 16px 36px;
+    background: #1a1a1a;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 999px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .empty-btn:hover {
+    background: #d4a574;
+    transform: translateY(-2px);
+  }
+  
+  @media (max-width: 768px) {
+    .collection-header {
+      padding: 60px 20px 40px;
+    }
+    
+    .collection-container {
+      padding: 40px 20px 0;
+    }
+    
+    .collection-toolbar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    
+    .product-grid {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
+    }
+  }
+</style>
+
+<section class="collection-page">
+  <div class="collection-header">
+    <div class="collection-header-content scroll-reveal">
+      <span class="collection-badge">Collection</span>
+      <h1 class="collection-title">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="collection-description">{{ collection.description }}</div>
+      {%- endif -%}
+      <p class="collection-count">{{ collection.products_count }} Products</p>
+    </div>
+  </div>
+  
+  <div class="collection-container">
+    {%- if collection.products.size > 0 -%}
+      <div class="collection-toolbar">
+        <div class="collection-sort">
+          <span class="sort-label">Sort by:</span>
+          <select class="sort-select" onchange="window.location.href=this.value">
+            <option value="{{ collection.url }}">Featured</option>
+            <option value="{{ collection.url }}?sort_by=title-ascending">A-Z</option>
+            <option value="{{ collection.url }}?sort_by=title-descending">Z-A</option>
+            <option value="{{ collection.url }}?sort_by=price-ascending">Price: Low to High</option>
+            <option value="{{ collection.url }}?sort_by=price-descending">Price: High to Low</option>
+            <option value="{{ collection.url }}?sort_by=created-descending">Newest</option>
+            <option value="{{ collection.url }}?sort_by=best-selling">Best Selling</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="product-grid">
+        {%- for product in collection.products -%}
+          {%- assign delay_class = forloop.index0 | modulo: 4 | times: 100 | prepend: 'delay-' -%}
+          <a href="{{ product.url }}" class="product-card scroll-reveal {{ delay_class }}">
+            <div class="product-image">
+              {%- if product.compare_at_price > product.price -%}
+                <span class="product-badge">Sale</span>
+              {%- endif -%}
+              
+              {%- if product.featured_image -%}
+                <img 
+                  src="{{ product.featured_image | img_url: '600x' }}" 
+                  alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                  loading="lazy"
+                  width="600"
+                  height="750">
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag }}
+              {%- endif -%}
+              
+              {%- if product.available -%}
+                <button class="quick-add" data-quick-add data-product-id="{{ product.variants.first.id }}">
+                  Quick Add
+                </button>
+              {%- else -%}
+                <button class="quick-add" style="background: #6b7280; cursor: not-allowed; opacity: 1;" disabled>
+                  Sold Out
+                </button>
+              {%- endif -%}
+            </div>
+            
+            <div class="product-info">
+              {%- if product.vendor != blank -%}
+                <p class="product-vendor">{{ product.vendor }}</p>
+              {%- endif -%}
+              
+              <h3 class="product-title">{{ product.title }}</h3>
+              
+              <p class="product-price">
+                {{ product.price | money }}
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="product-price-compare">{{ product.compare_at_price | money }}</span>
+                {%- endif -%}
+              </p>
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+      
+      {%- if paginate.pages > 1 -%}
+        <div class="pagination">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}" class="pagination-item">←</a>
+          {%- endif -%}
+          
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}
+              <a href="{{ part.url }}" class="pagination-item">{{ part.title }}</a>
+            {%- else -%}
+              <span class="pagination-item active">{{ part.title }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+          
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}" class="pagination-item">→</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      <div class="empty-collection">
+        <div class="empty-icon">🛍️</div>
+        <p class="empty-text">No products found in this collection.</p>
+        <a href="/collections/all" class="empty-btn">Browse All Products</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+document.querySelectorAll('[data-quick-add]').forEach(btn => {
+  btn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const variantId = btn.dataset.productId;
+    const originalText = btn.textContent;
+    
+    btn.textContent = 'Adding...';
+    btn.style.background = '#d4a574';
+    
+    try {
+      const res = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: variantId, quantity: 1 })
+      });
+      
+      if (res.ok) {
+        btn.style.background = '#16a34a';
+        btn.textContent = 'Added ✓';
+        
+        document.dispatchEvent(new CustomEvent('cart:updated'));
+        
+        setTimeout(() => {
+          btn.style.background = '#1a1a1a';
+          btn.textContent = originalText;
+        }, 2000);
+      }
+    } catch (err) {
+      btn.textContent = 'Error';
+      setTimeout(() => {
+        btn.style.background = '#1a1a1a';
+        btn.textContent = originalText;
+      }, 2000);
+    }
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Collection Page",
+  "tag": "section",
+  "class": "section-collection"
+}
+{% endschema %}
