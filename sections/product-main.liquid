@@ -1,0 +1,311 @@
+{% comment %}
+  ============================================================
+  Custom Product Page — Variant Image Grouping System
+  Shopify Online Store 2.0 compatible (Dawn-based themes)
+  ------------------------------------------------------------
+  Filters product media by variant option value using image
+  ALT text matching. Pure Liquid + vanilla JS. No frameworks.
+  ============================================================
+{% endcomment %}
+
+{{ 'variant-images.css' | asset_url | stylesheet_tag }}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap">
+<script src="https://cdn.tailwindcss.com"></script>
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign featured_image = current_variant.featured_image | default: product.featured_image
+  assign featured_alt = current_variant.option1
+  assign img_size = section.settings.image_size | default: '800x'
+-%}
+
+<section
+  class="vig-section"
+  id="vig-{{ section.id }}"
+  data-section-type="product-main"
+  data-product-id="{{ product.id }}"
+  data-gallery-layout="{{ section.settings.gallery_layout }}"
+  data-money-format="{{ shop.money_format | escape }}"
+>
+  <div class="vig-container">
+    <div class="vig-grid">
+
+      {% comment %} ---------- LEFT: MEDIA ---------- {% endcomment %}
+      <div class="vig-media">
+
+        {% comment %} Hero image with magnifier + zoom on hover {% endcomment %}
+        <div class="vig-hero" data-hero>
+          <div class="vig-hero__frame" data-hero-frame>
+            {% if featured_image %}
+              <img
+                class="vig-hero__img is-visible"
+                data-hero-img
+                src="{{ featured_image | img_url: img_size }}"
+                data-zoom-src="{{ featured_image | img_url: '1600x' }}"
+                alt="{{ featured_image.alt | default: product.title | escape }}"
+                width="800"
+                height="600"
+                fetchpriority="high">
+            {% else %}
+              <div class="vig-hero__placeholder">
+                {{ 'product-1' | placeholder_svg_tag: 'vig-placeholder-svg' }}
+              </div>
+            {% endif %}
+
+            <div class="vig-hero__lens" data-hero-lens aria-hidden="true"></div>
+
+            <button class="vig-hero__nav vig-hero__nav--prev" data-hero-prev type="button" aria-label="Previous image">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button class="vig-hero__nav vig-hero__nav--next" data-hero-next type="button" aria-label="Next image">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <span class="vig-hero__counter" data-hero-counter aria-live="polite"></span>
+          </div>
+        </div>
+
+        {% comment %} ---------- THUMBNAIL GALLERY (variant filtered) ---------- {% endcomment %}
+        <div
+          class="vig-thumbs vig-thumbs--{{ section.settings.gallery_layout }}"
+          data-thumbnail-gallery
+          role="list"
+        >
+          {%- for image in product.images -%}
+            {%- liquid
+              assign is_match = false
+              if image.alt == featured_alt
+                assign is_match = true
+              endif
+              if featured_image and image.id == featured_image.id
+                assign is_match = true
+              endif
+            -%}
+            <button
+              type="button"
+              role="listitem"
+              class="vig-thumb{% unless is_match %} is-hidden{% endunless %}{% if featured_image and image.id == featured_image.id %} is-active{% endif %}"
+              data-thumbnail-item
+              data-image="{{ image | img_url: img_size }}"
+              data-zoom="{{ image | img_url: '1600x' }}"
+              data-alt="{{ image.alt | escape }}"
+              aria-label="View image {{ forloop.index }}"
+            >
+              <img
+                src="{{ image | img_url: '160x160', crop: 'center' }}"
+                alt="{{ image.alt | default: product.title | escape }}"
+                width="100"
+                height="100"
+                loading="lazy">
+            </button>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {% comment %} ---------- RIGHT: PRODUCT INFO ---------- {% endcomment %}
+      <div class="vig-info">
+        {%- if product.vendor != blank -%}
+          <p class="vig-vendor">{{ product.vendor }}</p>
+        {%- endif -%}
+
+        <h1 class="vig-title">{{ product.title }}</h1>
+
+        <div class="vig-price" data-price-wrapper>
+          <span class="vig-price__current" data-price>{{ current_variant.price | money }}</span>
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            <s class="vig-price__compare" data-compare-price>{{ current_variant.compare_at_price | money }}</s>
+            <span class="vig-badge">Sale</span>
+          {%- else -%}
+            <s class="vig-price__compare" data-compare-price hidden></s>
+          {%- endif -%}
+        </div>
+
+        <p class="vig-availability" data-availability>
+          <span class="vig-dot {% if current_variant.available %}is-in{% else %}is-out{% endif %}"></span>
+          {% if current_variant.available %}In stock — ready to ship{% else %}Sold out{% endif %}
+        </p>
+
+        {% comment %} ---------- VARIANT SELECTORS ---------- {% endcomment %}
+        <form
+          method="post"
+          action="{{ routes.cart_add_url }}"
+          class="vig-form"
+          data-product-form
+          novalidate
+        >
+          <input type="hidden" name="form_type" value="product">
+          <input type="hidden" name="utf8" value="✓">
+          <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+
+          {%- for option in product.options_with_values -%}
+            {%- assign is_color = false -%}
+            {%- assign opt_name_down = option.name | downcase -%}
+            {%- if opt_name_down contains 'color' or opt_name_down contains 'colour' -%}
+              {%- assign is_color = true -%}
+            {%- endif -%}
+
+            <div class="vig-option" data-option-index="{{ forloop.index0 }}">
+              <div class="vig-option__head">
+                <span class="vig-option__name">{{ option.name }}</span>
+                <span class="vig-option__value" data-option-selected-value>{{ option.selected_value }}</span>
+              </div>
+
+              <div class="vig-option__values {% if is_color %}vig-swatches{% else %}vig-pills{% endif %}">
+                {%- for value in option.values -%}
+                  <button
+                    type="button"
+                    class="{% if is_color %}vig-swatch{% else %}vig-pill{% endif %}{% if value == option.selected_value %} is-selected{% endif %}"
+                    data-option-button
+                    data-option-position="{{ option.position }}"
+                    data-option-value="{{ value | escape }}"
+                    {% if is_color %}style="--swatch-color: {{ value | downcase | replace: ' ', '' }};"{% endif %}
+                    aria-pressed="{% if value == option.selected_value %}true{% else %}false{% endif %}"
+                    title="{{ value | escape }}"
+                  >
+                    {% unless is_color %}{{ value }}{% endunless %}
+                    <span class="vig-sr-only">{{ option.name }}: {{ value }}</span>
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endfor -%}
+
+          <div class="vig-qty">
+            <label class="vig-qty__label" for="vig-qty-{{ section.id }}">Quantity</label>
+            <div class="vig-qty__control">
+              <button type="button" data-qty-minus aria-label="Decrease quantity">−</button>
+              <input id="vig-qty-{{ section.id }}" name="quantity" type="number" value="1" min="1" data-qty-input>
+              <button type="button" data-qty-plus aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="vig-atc"
+            data-add-to-cart
+            {% unless current_variant.available %}disabled{% endunless %}
+          >
+            <span data-atc-text>
+              {% if current_variant.available %}Add to cart{% else %}Sold out{% endif %}
+            </span>
+            <span class="vig-atc__spinner" data-atc-spinner hidden></span>
+          </button>
+
+          <p class="vig-form__status" data-cart-status role="status" aria-live="polite"></p>
+        </form>
+
+        {%- if product.description != blank -%}
+          <div class="vig-description rte">{{ product.description }}</div>
+        {%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <ul class="vig-features">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'feature' -%}
+                <li class="vig-feature" {{ block.shopify_attributes }}>
+                  <strong>{{ block.settings.title }}</strong>
+                  {%- if block.settings.text != blank -%}<span>{{ block.settings.text }}</span>{%- endif -%}
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {% comment %} ---------- STYLE INSPIRATION ---------- {% endcomment %}
+    {%- if section.settings.show_style_inspiration -%}
+      {% render 'style-inspiration',
+        product: product,
+        product_tags: product.tags,
+        selected_color: featured_alt,
+        heading: section.settings.style_heading
+      %}
+    {%- endif -%}
+  </div>
+
+  {% comment %} Variant data consumed by assets/variant-images.js {% endcomment %}
+  <script type="application/json" data-variant-json>
+    {{ product.variants | json }}
+  </script>
+  <script type="application/json" data-images-json>
+    [
+      {%- for image in product.images -%}
+        {
+          "id": {{ image.id }},
+          "alt": {{ image.alt | default: '' | json }},
+          "src": {{ image | img_url: img_size | json }},
+          "zoom": {{ image | img_url: '1600x' | json }},
+          "thumb": {{ image | img_url: '160x160', crop: 'center' | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  </script>
+</section>
+
+<script src="{{ 'variant-images.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Custom Product Page",
+  "tag": "section",
+  "class": "section-custom-product",
+  "settings": [
+    {
+      "type": "select",
+      "id": "gallery_layout",
+      "label": "Gallery layout",
+      "options": [
+        { "value": "grid", "label": "Grid (5 columns)" },
+        { "value": "slider", "label": "Slider (horizontal scroll)" }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "select",
+      "id": "image_size",
+      "label": "Main image size",
+      "options": [
+        { "value": "600x", "label": "Small (600px)" },
+        { "value": "800x", "label": "Medium (800px)" },
+        { "value": "1200x", "label": "Large (1200px)" }
+      ],
+      "default": "800x"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_style_inspiration",
+      "label": "Show Style Inspiration",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "style_heading",
+      "label": "Style Inspiration heading",
+      "default": "Complete The Look"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Product feature",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Free shipping" },
+        { "type": "text", "id": "text", "label": "Text", "default": "On all orders over $75" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Custom Product Page" }
+  ]
+}
+{% endschema %}

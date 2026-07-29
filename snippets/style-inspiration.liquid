@@ -1,0 +1,99 @@
+{% comment %}
+  ============================================================
+  Snippet: style-inspiration
+  ------------------------------------------------------------
+  Renders a "Complete The Look" module driven by product tags
+  and the currently selected color variant.
+
+  Usage:
+    {% render 'style-inspiration',
+        product: product,
+        product_tags: product.tags,
+        selected_color: variant.option1,
+        heading: 'Complete The Look' %}
+
+  Parameters:
+    product        (product) required — the current product
+    product_tags   (array)   optional — defaults to product.tags
+    selected_color (string)  optional — current color option value
+    heading        (string)  optional — module heading
+  ============================================================
+{% endcomment %}
+
+{%- liquid
+  assign tags = product_tags | default: product.tags
+  assign heading_text = heading | default: 'Complete The Look'
+  assign color_label = selected_color | default: ''
+
+  # Map a season/style tag to a collection handle + label.
+  assign season = 'essentials'
+  assign season_label = 'Everyday Essentials'
+
+  if tags contains 'summer'
+    assign season = 'summer'
+    assign season_label = 'Summer Collection'
+  elsif tags contains 'winter'
+    assign season = 'winter'
+    assign season_label = 'Winter Collection'
+  elsif tags contains 'autumn' or tags contains 'fall'
+    assign season = 'autumn'
+    assign season_label = 'Autumn Collection'
+  elsif tags contains 'spring'
+    assign season = 'spring'
+    assign season_label = 'Spring Collection'
+  endif
+
+  assign inspo_collection = collections[season]
+  if inspo_collection == blank or inspo_collection.products_count == 0
+    assign inspo_collection = product.collections.first
+  endif
+-%}
+
+{%- if inspo_collection and inspo_collection.products.size > 0 -%}
+  <div class="vig-inspo" data-style-inspiration data-season="{{ season }}" data-color="{{ color_label | escape }}">
+    <p class="vig-inspo__eyebrow">Style Inspiration</p>
+    <h2 class="vig-inspo__title">
+      {{ heading_text }}{% if color_label != blank %} — {{ color_label }}{% endif %}
+    </h2>
+    <p class="vig-inspo__sub">
+      Pieces from the {{ season_label }} chosen to pair with
+      {% if color_label != blank %}your {{ color_label | downcase }} {{ product.type | downcase | default: 'pick' }}{% else %}this piece{% endif %}.
+    </p>
+
+    <div class="vig-inspo__grid">
+      {%- assign shown = 0 -%}
+      {%- for item in inspo_collection.products -%}
+        {%- if item.id != product.id and shown < 3 -%}
+          {%- assign shown = shown | plus: 1 -%}
+          <a
+            class="vig-inspo__card"
+            href="{{ item.url }}"
+            style="--stagger: {{ forloop.index0 | times: 90 }}ms;"
+          >
+            <div class="vig-inspo__media">
+              {%- if item.featured_image -%}
+                <img
+                  src="{{ item.featured_image | img_url: '600x' }}"
+                  alt="{{ item.featured_image.alt | default: item.title | escape }}"
+                  width="600" height="750" loading="lazy">
+              {%- else -%}
+                {{ 'product-2' | placeholder_svg_tag }}
+              {%- endif -%}
+            </div>
+            <div class="vig-inspo__body">
+              <span class="vig-inspo__tag">{{ season_label }}</span>
+              <p class="vig-inspo__name">{{ item.title }}</p>
+              <span class="vig-inspo__price">
+                {%- if item.compare_at_price > item.price -%}
+                  {{ item.price | money }} <s>{{ item.compare_at_price | money }}</s>
+                {%- else -%}
+                  {{ item.price | money }}
+                {%- endif -%}
+              </span>
+            </div>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
