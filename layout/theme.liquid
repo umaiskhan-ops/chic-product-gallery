@@ -60,9 +60,13 @@
   <body>
     <a href="#MainContent" class="skip-to-content">Skip to content</a>
 
+    {% sections 'header-group' %}
+
     <main id="MainContent" role="main">
       {{ content_for_layout }}
     </main>
+
+    {% sections 'footer-group' %}
 
   </body>
 </html>
