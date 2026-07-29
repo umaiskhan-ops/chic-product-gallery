@@ -1,0 +1,495 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap">
+
+<style>
+  .search-page {
+    background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 50%, #ffffff 100%);
+    padding-bottom: 80px;
+    min-height: 70vh;
+  }
+  
+  .search-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    padding: 80px 20px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .search-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(212, 165, 116, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  
+  .search-header-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .search-badge {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: linear-gradient(135deg, #d4a574 0%, #c9a66b 100%);
+    padding: 8px 20px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
+  }
+  
+  .search-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 600;
+    margin: 0 0 24px;
+    color: #1a1a1a;
+  }
+  
+  .search-form-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .search-form {
+    position: relative;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 20px 60px 20px 24px;
+    border: 2px solid #e9ecef;
+    border-radius: 999px;
+    font-size: 16px;
+    font-family: inherit;
+    background: #ffffff;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+  
+  .search-input:focus {
+    outline: none;
+    border-color: #d4a574;
+    box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.1), 0 8px 30px rgba(0, 0, 0, 0.08);
+  }
+  
+  .search-submit {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background: #1a1a1a;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 18px;
+  }
+  
+  .search-submit:hover {
+    background: #d4a574;
+    transform: translateY(-50%) scale(1.1);
+  }
+  
+  .search-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 60px 20px 0;
+  }
+  
+  .search-info {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .search-results-text {
+    font-size: 16px;
+    color: #6b7280;
+  }
+  
+  .search-query {
+    font-weight: 600;
+    color: #d4a574;
+  }
+  
+  .search-count {
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 32px;
+  }
+  
+  .product-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 16px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border: 1px solid rgba(212, 165, 116, 0.15);
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), 
+                box-shadow 0.5s ease,
+                border-color 0.5s ease;
+    position: relative;
+  }
+  
+  .product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(212, 165, 116, 0.08) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 25px 60px rgba(212, 165, 116, 0.3), 
+                0 15px 30px rgba(0, 0, 0, 0.3);
+    border-color: rgba(212, 165, 116, 0.5);
+  }
+  
+  .product-card:hover::before {
+    opacity: 1;
+  }
+  
+  .product-image {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    position: relative;
+  }
+  
+  .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  
+  .product-card:hover .product-image img {
+    transform: scale(1.15) rotate(2deg);
+  }
+  
+  .quick-add {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    padding: 14px 24px;
+    background: #1a1a1a;
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 2;
+  }
+  
+  .product-card:hover .quick-add {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .quick-add:hover {
+    background: #d4a574;
+    transform: translateY(-3px);
+  }
+  
+  .product-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #d4a574;
+    color: #ffffff;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: 600;
+    z-index: 1;
+  }
+  
+  .product-info {
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(26, 26, 26, 0.98) 0%, rgba(26, 26, 26, 1) 100%);
+  }
+  
+  .product-vendor {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #d4a574;
+    margin: 0 0 8px;
+    font-weight: 600;
+  }
+  
+  .product-title {
+    font-size: 17px;
+    font-weight: 500;
+    margin: 0 0 12px;
+    color: #ffffff;
+    line-height: 1.3;
+  }
+  
+  .product-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: #d4a574;
+  }
+  
+  .product-price-compare {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: line-through;
+    margin-left: 8px;
+  }
+  
+  .empty-search {
+    text-align: center;
+    padding: 80px 20px;
+  }
+  
+  .empty-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    opacity: 0.3;
+  }
+  
+  .empty-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 12px;
+  }
+  
+  .empty-text {
+    font-size: 16px;
+    color: #6b7280;
+    margin: 0 0 32px;
+  }
+  
+  .empty-btn {
+    display: inline-block;
+    padding: 16px 36px;
+    background: #1a1a1a;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 999px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .empty-btn:hover {
+    background: #d4a574;
+    transform: translateY(-2px);
+  }
+  
+  @media (max-width: 768px) {
+    .search-header {
+      padding: 60px 20px 40px;
+    }
+    
+    .search-container {
+      padding: 40px 20px 0;
+    }
+    
+    .product-grid {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
+    }
+  }
+</style>
+
+{%- paginate search.results by 12 -%}
+<section class="search-page">
+  <div class="search-header">
+    <div class="search-header-content scroll-reveal">
+      <span class="search-badge">Search</span>
+      <h1 class="search-title">Find Your Perfect Product</h1>
+      
+      <div class="search-form-wrapper">
+        <form action="/search" method="get" class="search-form" role="search">
+          <input 
+            type="search" 
+            name="q" 
+            class="search-input"
+            placeholder="Search products..."
+            value="{{ search.terms | escape }}"
+            autocomplete="off">
+          <button type="submit" class="search-submit" aria-label="Search">
+            🔍
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <div class="search-container">
+    {%- if search.performed -%}
+      {%- if search.results.size > 0 -%}
+        <div class="search-info">
+          <p class="search-results-text">
+            Found <span class="search-count">{{ search.results_count }}</span> 
+            {%- if search.results_count == 1 -%}result{%- else -%}results{%- endif -%} 
+            for <span class="search-query">"{{ search.terms }}"</span>
+          </p>
+        </div>
+        
+        <div class="product-grid">
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              {%- assign product = item -%}
+              {%- assign delay_class = forloop.index0 | modulo: 4 | times: 100 | prepend: 'delay-' -%}
+              <a href="{{ product.url }}" class="product-card scroll-reveal {{ delay_class }}">
+                <div class="product-image">
+                  {%- if product.compare_at_price > product.price -%}
+                    <span class="product-badge">Sale</span>
+                  {%- endif -%}
+                  
+                  {%- if product.featured_image -%}
+                    <img 
+                      src="{{ product.featured_image | img_url: '600x' }}" 
+                      alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                      loading="lazy"
+                      width="600"
+                      height="750">
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag }}
+                  {%- endif -%}
+                  
+                  {%- if product.available -%}
+                    <button class="quick-add" data-quick-add data-product-id="{{ product.variants.first.id }}">
+                      Quick Add
+                    </button>
+                  {%- else -%}
+                    <button class="quick-add" style="background: #6b7280; cursor: not-allowed; opacity: 1;" disabled>
+                      Sold Out
+                    </button>
+                  {%- endif -%}
+                </div>
+                
+                <div class="product-info">
+                  {%- if product.vendor != blank -%}
+                    <p class="product-vendor">{{ product.vendor }}</p>
+                  {%- endif -%}
+                  
+                  <h3 class="product-title">{{ product.title }}</h3>
+                  
+                  <p class="product-price">
+                    {{ product.price | money }}
+                    {%- if product.compare_at_price > product.price -%}
+                      <span class="product-price-compare">{{ product.compare_at_price | money }}</span>
+                    {%- endif -%}
+                  </p>
+                </div>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div class="empty-search">
+          <div class="empty-icon">🔍</div>
+          <h2 class="empty-title">No Results Found</h2>
+          <p class="empty-text">
+            We couldn't find any products matching <strong>"{{ search.terms }}"</strong><br>
+            Try searching with different keywords.
+          </p>
+          <a href="/collections/all" class="empty-btn">Browse All Products</a>
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      <div class="empty-search">
+        <div class="empty-icon">🔍</div>
+        <h2 class="empty-title">Start Your Search</h2>
+        <p class="empty-text">
+          Enter a keyword above to search our entire collection of premium products.
+        </p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+{%- endpaginate -%}
+
+<script>
+document.querySelectorAll('[data-quick-add]').forEach(btn => {
+  btn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const variantId = btn.dataset.productId;
+    const originalText = btn.textContent;
+    
+    btn.textContent = 'Adding...';
+    btn.style.background = '#d4a574';
+    
+    try {
+      const res = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: variantId, quantity: 1 })
+      });
+      
+      if (res.ok) {
+        btn.style.background = '#16a34a';
+        btn.textContent = 'Added ✓';
+        
+        document.dispatchEvent(new CustomEvent('cart:updated'));
+        
+        setTimeout(() => {
+          btn.style.background = '#1a1a1a';
+          btn.textContent = originalText;
+        }, 2000);
+      }
+    } catch (err) {
+      btn.textContent = 'Error';
+      setTimeout(() => {
+        btn.style.background = '#1a1a1a';
+        btn.textContent = originalText;
+      }, 2000);
+    }
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Search Page",
+  "tag": "section",
+  "class": "section-search"
+}
+{% endschema %}
