@@ -242,9 +242,15 @@
                 {{ 'product-1' | placeholder_svg_tag }}
               {%- endif -%}
               
-              <button class="quick-add" data-quick-add data-product-id="{{ product.variants.first.id }}">
-                Quick Add
-              </button>
+              {%- if product.available -%}
+                <button class="quick-add" data-quick-add data-product-id="{{ product.variants.first.id }}">
+                  Quick Add
+                </button>
+              {%- else -%}
+                <button class="quick-add" style="background: #6b7280; cursor: not-allowed; opacity: 1;" disabled>
+                  Sold Out
+                </button>
+              {%- endif -%}
             </div>
             
             <div class="product-info">
