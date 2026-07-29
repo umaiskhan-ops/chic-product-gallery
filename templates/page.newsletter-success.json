@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-newsletter-success",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
