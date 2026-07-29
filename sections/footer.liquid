@@ -174,17 +174,24 @@
     <div class="footer-newsletter">
       <h3>Stay In Touch</h3>
       <p>Subscribe to get special offers, style inspiration, and much more.</p>
-      <form class="newsletter-form" action="/contact#newsletter" method="post">
+      {% form 'customer', return_to: '/pages/newsletter-success' %}
         <input type="hidden" name="contact[tags]" value="newsletter">
-        <input type="hidden" name="return_to" value="/pages/newsletter-success">
-        <input 
-          type="email" 
-          name="contact[email]" 
-          class="newsletter-input" 
-          placeholder="Enter your email"
-          required>
-        <button type="submit" class="newsletter-button">Subscribe</button>
-      </form>
+        <div class="newsletter-form">
+          <input 
+            type="email" 
+            name="contact[email]" 
+            class="newsletter-input" 
+            placeholder="Enter your email"
+            required>
+          <button type="submit" class="newsletter-button">Subscribe</button>
+        </div>
+        {%- if form.posted_successfully? -%}
+          <script>window.location.href = '/pages/newsletter-success';</script>
+        {%- endif -%}
+        {%- if form.errors -%}
+          <p style="color: #ef4444; font-size: 12px; margin-top: 8px;">Please enter a valid email address.</p>
+        {%- endif -%}
+      {% endform %}
     </div>
     
     <div class="footer-grid">
