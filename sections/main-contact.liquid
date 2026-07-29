@@ -1,0 +1,462 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap">
+
+<style>
+  .contact-page {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    padding: 80px 20px 120px;
+    min-height: 70vh;
+  }
+  
+  .contact-container {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  
+  .contact-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  
+  .contact-badge {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: linear-gradient(135deg, #d4a574 0%, #c9a66b 100%);
+    padding: 8px 20px;
+    border-radius: 999px;
+    margin-bottom: 24px;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
+  }
+  
+  .contact-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 600;
+    margin: 0 0 20px;
+    color: #1a1a1a;
+  }
+  
+  .contact-subtitle {
+    font-size: 18px;
+    color: #6b7280;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  
+  .contact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  
+  .contact-info {
+    position: sticky;
+    top: 100px;
+  }
+  
+  .info-card {
+    background: #ffffff;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    margin-bottom: 24px;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), 
+                box-shadow 0.4s ease;
+  }
+  
+  .info-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  }
+  
+  .info-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #d4a574 0%, #c9a66b 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 20px rgba(212, 165, 116, 0.3);
+  }
+  
+  .info-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 8px;
+  }
+  
+  .info-text {
+    font-size: 15px;
+    color: #6b7280;
+    line-height: 1.6;
+    margin: 0;
+  }
+  
+  .info-text a {
+    color: #d4a574;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .info-text a:hover {
+    color: #c9a66b;
+  }
+  
+  .contact-form-wrapper {
+    background: #ffffff;
+    padding: 48px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  }
+  
+  .form-group {
+    margin-bottom: 24px;
+  }
+  
+  .form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  
+  .form-input,
+  .form-textarea {
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    font-size: 15px;
+    color: #1a1a1a;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+  }
+  
+  .form-input:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: #d4a574;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.1);
+  }
+  
+  .form-textarea {
+    min-height: 160px;
+    resize: vertical;
+  }
+  
+  .form-submit {
+    width: 100%;
+    padding: 18px;
+    background: #1a1a1a;
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 4px 20px rgba(26, 26, 26, 0.15);
+  }
+  
+  .form-submit:hover {
+    background: #d4a574;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(212, 165, 116, 0.4);
+  }
+  
+  .form-submit:active {
+    transform: translateY(-1px);
+  }
+  
+  .success-message {
+    background: #16a34a;
+    color: #ffffff;
+    padding: 16px 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    text-align: center;
+    font-weight: 600;
+    animation: slideInDown 0.5s ease;
+  }
+  
+  .error-message {
+    background: #ef4444;
+    color: #ffffff;
+    padding: 16px 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    text-align: center;
+    font-weight: 600;
+    animation: slideInDown 0.5s ease;
+  }
+  
+  .social-links {
+    display: flex;
+    gap: 16px;
+    margin-top: 32px;
+  }
+  
+  .social-link {
+    width: 48px;
+    height: 48px;
+    background: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #1a1a1a;
+    font-size: 20px;
+    transition: all 0.3s ease;
+  }
+  
+  .social-link:hover {
+    background: #d4a574;
+    color: #ffffff;
+    transform: translateY(-4px) scale(1.1);
+    box-shadow: 0 8px 20px rgba(212, 165, 116, 0.3);
+  }
+  
+  @keyframes slideInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 968px) {
+    .contact-content {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    
+    .contact-info {
+      position: static;
+    }
+    
+    .contact-form-wrapper {
+      padding: 32px 24px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .contact-page {
+      padding: 60px 20px 80px;
+    }
+    
+    .contact-header {
+      margin-bottom: 60px;
+    }
+  }
+</style>
+
+<section class="contact-page">
+  <div class="contact-container">
+    <div class="contact-header scroll-reveal">
+      <span class="contact-badge">Get In Touch</span>
+      <h1 class="contact-title">{{ page.title }}</h1>
+      <p class="contact-subtitle">
+        Have a question or want to work together? We'd love to hear from you.
+      </p>
+    </div>
+    
+    <div class="contact-content">
+      <div class="contact-info">
+        <div class="info-card scroll-reveal delay-100">
+          <div class="info-icon">📧</div>
+          <h3 class="info-title">Email Us</h3>
+          <p class="info-text">
+            <a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a>
+          </p>
+        </div>
+        
+        <div class="info-card scroll-reveal delay-200">
+          <div class="info-icon">📞</div>
+          <h3 class="info-title">Call Us</h3>
+          <p class="info-text">
+            <a href="tel:{{ section.settings.phone }}">{{ section.settings.phone }}</a>
+          </p>
+        </div>
+        
+        <div class="info-card scroll-reveal delay-300">
+          <div class="info-icon">📍</div>
+          <h3 class="info-title">Visit Us</h3>
+          <p class="info-text">{{ section.settings.address }}</p>
+        </div>
+        
+        <div class="info-card scroll-reveal delay-400">
+          <div class="info-icon">⏰</div>
+          <h3 class="info-title">Business Hours</h3>
+          <p class="info-text">
+            Monday - Friday: 9am - 6pm<br>
+            Saturday: 10am - 4pm<br>
+            Sunday: Closed
+          </p>
+        </div>
+        
+        {%- if section.settings.show_social -%}
+          <div class="social-links scroll-reveal delay-500">
+            {%- if section.settings.instagram != blank -%}
+              <a href="{{ section.settings.instagram }}" class="social-link" target="_blank" rel="noopener">
+                📷
+              </a>
+            {%- endif -%}
+            {%- if section.settings.facebook != blank -%}
+              <a href="{{ section.settings.facebook }}" class="social-link" target="_blank" rel="noopener">
+                📘
+              </a>
+            {%- endif -%}
+            {%- if section.settings.twitter != blank -%}
+              <a href="{{ section.settings.twitter }}" class="social-link" target="_blank" rel="noopener">
+                🐦
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+      
+      <div class="contact-form-wrapper scroll-reveal delay-200">
+        {%- if form.posted_successfully? -%}
+          <div class="success-message">
+            ✓ Thank you! Your message has been sent successfully.
+          </div>
+        {%- endif -%}
+        
+        {%- if form.errors -%}
+          <div class="error-message">
+            ⚠ Please fix the errors below and try again.
+          </div>
+        {%- endif -%}
+        
+        {% form 'contact' %}
+          <div class="form-group">
+            <label for="contact-name" class="form-label">
+              Your Name *
+            </label>
+            <input 
+              type="text" 
+              id="contact-name" 
+              name="contact[name]" 
+              class="form-input"
+              placeholder="John Doe"
+              required
+              value="{% if form.name %}{{ form.name }}{% endif %}">
+          </div>
+          
+          <div class="form-group">
+            <label for="contact-email" class="form-label">
+              Email Address *
+            </label>
+            <input 
+              type="email" 
+              id="contact-email" 
+              name="contact[email]" 
+              class="form-input"
+              placeholder="john@example.com"
+              required
+              value="{% if form.email %}{{ form.email }}{% endif %}">
+          </div>
+          
+          <div class="form-group">
+            <label for="contact-phone" class="form-label">
+              Phone Number
+            </label>
+            <input 
+              type="tel" 
+              id="contact-phone" 
+              name="contact[phone]" 
+              class="form-input"
+              placeholder="+1 (555) 123-4567"
+              value="{% if form.phone %}{{ form.phone }}{% endif %}">
+          </div>
+          
+          <div class="form-group">
+            <label for="contact-message" class="form-label">
+              Message *
+            </label>
+            <textarea 
+              id="contact-message" 
+              name="contact[body]" 
+              class="form-textarea"
+              placeholder="Tell us how we can help you..."
+              required>{% if form.body %}{{ form.body }}{% endif %}</textarea>
+          </div>
+          
+          <button type="submit" class="form-submit">
+            Send Message →
+          </button>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact Page",
+  "tag": "section",
+  "class": "section-contact",
+  "settings": [
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email Address",
+      "default": "hello@example.com"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone Number",
+      "default": "+1 (555) 123-4567"
+    },
+    {
+      "type": "textarea",
+      "id": "address",
+      "label": "Business Address",
+      "default": "123 Fashion Street, New York, NY 10001"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show Social Links",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "instagram",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "facebook",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "twitter",
+      "label": "Twitter URL"
+    }
+  ]
+}
+{% endschema %}

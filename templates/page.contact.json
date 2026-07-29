@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-contact",
+      "settings": {
+        "email": "hello@example.com",
+        "phone": "+1 (555) 123-4567",
+        "address": "123 Fashion Street, New York, NY 10001",
+        "show_social": true,
+        "instagram": "https://instagram.com",
+        "facebook": "https://facebook.com",
+        "twitter": "https://twitter.com"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
