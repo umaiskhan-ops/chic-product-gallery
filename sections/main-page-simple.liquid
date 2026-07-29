@@ -1,0 +1,120 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap">
+
+<style>
+  .simple-page {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    padding: 80px 20px 120px;
+    min-height: 70vh;
+  }
+  
+  .simple-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 60px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(212, 165, 116, 0.1);
+  }
+  
+  .page-badge {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #ffffff;
+    background: linear-gradient(135deg, #d4a574 0%, #c9a66b 100%);
+    padding: 8px 20px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
+  }
+  
+  .page-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 600;
+    margin: 0 0 32px;
+    color: #1a1a1a;
+  }
+  
+  .page-content {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #4b5563;
+  }
+  
+  .page-content h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 40px 0 20px;
+  }
+  
+  .page-content h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 32px 0 16px;
+  }
+  
+  .page-content p {
+    margin-bottom: 20px;
+  }
+  
+  .page-content ul, .page-content ol {
+    margin: 20px 0;
+    padding-left: 24px;
+  }
+  
+  .page-content li {
+    margin-bottom: 12px;
+  }
+  
+  .page-content strong {
+    color: #1a1a1a;
+    font-weight: 600;
+  }
+  
+  .page-content a {
+    color: #d4a574;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+  }
+  
+  .page-content a:hover {
+    color: #c9a66b;
+  }
+  
+  @media (max-width: 768px) {
+    .simple-page {
+      padding: 60px 20px 80px;
+    }
+    
+    .simple-container {
+      padding: 32px 24px;
+    }
+  }
+</style>
+
+<section class="simple-page">
+  <div class="simple-container scroll-reveal">
+    <span class="page-badge">Information</span>
+    <h1 class="page-title">{{ page.title }}</h1>
+    <div class="page-content">
+      {{ page.content }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Simple Page",
+  "tag": "section",
+  "class": "section-simple-page"
+}
+{% endschema %}
