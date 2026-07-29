@@ -158,7 +158,11 @@
 
 {%- liquid
   assign collection_handle = section.settings.collection
-  assign collection = collections[collection_handle]
+  if collection_handle == blank
+    assign collection = collections.all
+  else
+    assign collection = collections[collection_handle]
+  endif
   assign products_to_show = section.settings.products_to_show | default: 8
 -%}
 
@@ -240,14 +244,12 @@
     {
       "type": "text",
       "id": "subtitle",
-      "label": "Subtitle",
-      "default": ""
+      "label": "Subtitle"
     },
     {
       "type": "collection",
       "id": "collection",
-      "label": "Collection",
-      "default": "all"
+      "label": "Collection"
     },
     {
       "type": "range",
