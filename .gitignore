@@ -30,3 +30,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Shopify - Do not commit settings_data (store-specific)
+config/settings_data.json
+
+# Lovable build artifacts (not needed for Shopify)
+src/
+public/
+.lovable/

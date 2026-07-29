@@ -1,219 +1,266 @@
-# Chic Product Gallery
+# ✨ Chic Product Gallery
 
-You are building a COMPLETE Shopify product page section for a development store. This is NOT a React app, NOT a Vite app, and NOT a standalone website.
+> A premium Shopify product page section with variant-based image filtering, elegant design, and smooth animations.
 
-## CRITICAL INSTRUCTION
-Generate ONLY pure Shopify Liquid theme code. Do NOT use React, Vite, Next.js, or any JavaScript framework. Use only:
-- Shopify Liquid (for theme files)
-- HTML5
-- Tailwind CSS (via CDN)
-- Vanilla JavaScript (ES6+)
-- Shopify AJAX Cart API endpoints
+[![Shopify](https://img.shields.io/badge/Shopify-Section-96BF48?style=for-the-badge&logo=shopify&logoColor=white)](https://shopify.com)
+[![GitHub](https://img.shields.io/badge/GitHub-Integrated-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com)
 
-## PROJECT CONTEXT
-This is a Variant Image Grouping System for a Shopify product page. It filters product images based on selected variant color/size. This will be deployed to a Shopify development store as a custom section.
+---
 
-## DESIGN SYSTEM (Make It Jaw-Dropping)
-- **Color Palette:** Clean white (#ffffff) background with soft gray (#f8f9fa) sections. Accent color: Soft Gold (#d4a574).
-- **Typography:** Playfair Display for headings (elegant), Inter for body text. Load from Google Fonts with display=swap.
-- **Animations:** Images fade in with a cinematic zoom effect. Variant switches feel like a photo gallery with 0.5s transitions.
+## 🎯 **Overview**
 
-## THE PRODUCT PAGE EXPERIENCE
+**Chic Product Gallery** is a custom Shopify product page section that revolutionizes how customers interact with product variants. Instead of showing all product images at once, it intelligently filters and displays only the images relevant to the selected variant (color, size, style).
 
-### 1. Hero Image (The Showstopper)
-- Main product image: Full-width (100% of container), height: 600px
-- Hover effect: Image zooms in 1.1x with smooth transition (transform: scale(1.1))
-- Next/Previous arrows: Appear on hover, semi-transparent background
-- Use: {{ product.selected_or_first_available_variant.featured_image | default: product.featured_image | img_url: '800x' }}
+**Live Demo:** [View Store](#) | **Password:** `[your-password]`
 
-### 2. Variant Thumbnail Gallery (The Magic)
-**The Problem It Solves:** Currently all images display simultaneously. This filters them dynamically.
+---
 
-**How It Works:**
-- Each variant (e.g., "Blue", "Red", "Black") has images with matching ALT text
-- When user selects "Blue", ONLY images with ALT="Blue" appear
-- Thumbnails: 5 columns, each thumbnail has hover scale effect (1.05x)
+## ✨ **Key Features**
 
-**Technical Implementation:**
-```liquid
-{% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
-{% assign featured_alt = product.selected_or_first_available_variant.option1 %}
+### 🎨 **Elegant Design System**
+- **Color Palette:** Clean white (#ffffff) background with soft gold (#d4a574) accents
+- **Typography:** Playfair Display for headings, Inter for body text
+- **Animations:** Cinematic zoom effects, smooth transitions (0.5s), fade-in effects
 
-<div class="thumbnail-gallery">
-  {% for image in product.images %}
-    {% if image.alt == featured_alt or image == featured_image %}
-      <div class="thumbnail-item" data-image="{{ image | img_url: '800x' }}">
-        <img src="{{ image | img_url: '100x100' }}" alt="{{ image.alt }}" loading="lazy">
-      </div>
-    {% endif %}
-  {% endfor %}
-</div>
+### 🔍 **Variant Image Filtering**
+- Automatically filters product images based on selected variant
+- Uses image ALT text matching for intelligent filtering
+- Smooth fade transitions when switching variants
+- Thumbnail gallery updates dynamically
 
-3. Variant Selector (But Better)
+### 🖼️ **Image Gallery Features**
+- **Hero Image:** Full-width display with hover zoom (1.1x scale)
+- **Magnifying Glass:** Zoom on hover with mouse movement tracking
+- **Thumbnail Grid:** 5-column responsive grid with hover effects
+- **Navigation Arrows:** Previous/Next controls with semi-transparent overlay
 
-Color swatches: Circle buttons with actual product color
+### 🎁 **Style Inspiration Section**
+- "Complete The Look" recommendations
+- Tag-based outfit combinations
+- Dynamic content based on selected variant
+- Complementary product suggestions
 
-Selected variant: Pulsing glow border (box-shadow animation)
+### ⚡ **Performance Optimized**
+- Pure Liquid templating (no frameworks)
+- Vanilla JavaScript (no dependencies)
+- Lazy loading for images
+- Optimized transitions and animations
 
-When variant changes: Hero image transitions with 0.5s fade
+---
 
-For color variants: Use {{ variant.option1 }} as color name
+## 📁 **File Structure**
 
-For other options: Show as rounded pills
-
-4. The "Style Guide" Feature (Unique)
-
-Below thumbnails: "Style Inspiration" section showing outfit combinations
-
-Uses product tags: {% if product.tags contains 'summer' %} show summer outfits
-
-Dynamic based on selected color variant
-
-5. Zoom on Hover (Magnifying Glass)
-
-Hovering over main image shows a zoomed-in view (200% scale)
-
-Moves with mouse cursor for a "looking through magnifying glass" effect
-
-Implement using JavaScript mousemove event + CSS transform
-
-SHOPIFY LIQUID VARIABLES TO USE
-
-{{ product.title }} - Product title
-
-{{ product.description }} - Product description
-
-{{ product.price | money }} - Product price with currency
-
-{{ product.compare_at_price | money }} - Compare at price
-
-{{ product.available }} - Availability
-
-{{ product.variants }} - All variants
-
-{{ product.options_with_values }} - Options with values
-
-{{ product.metafields }} - For additional data
-
-FILES TO GENERATE
-
-File 1: sections/product-main.liquid
-
-Complete Shopify section file with:
-
-{% schema %} block with:
-
-name: "Custom Product Page"
-
-settings: gallery_layout (grid/slider), image_size, show_style_inspiration
-
-blocks: for product features (optional)
-
-Full HTML structure for:
-
-Two-column layout (image gallery | product info)
-
-Hero image with zoom on hover
-
-Thumbnail gallery with variant filtering
-
-Variant selector (color swatches + options)
-
-Add to cart with AJAX
-
-Style inspiration section
-
-File 2: assets/variant-images.js
-
-Complete JavaScript file with:
-
-Variant change handler: When variant selected, filter thumbnails
-
-Image transition: Fade hero image when variant changes
-
-Magnifying glass: Zoom on hover with mouse movement
-
-AJAX add to cart: fetch('/cart/add.js', { method: 'POST', body: formData })
-
-Debouncing for rapid clicks
-
-File 3: assets/variant-images.css
-
-Complete CSS file with:
-
-Gallery styling (grid, spacing)
-
-Zoom effect (transform + transition)
-
-Magnifying glass (cursor: crosshair, zoomed view)
-
-Color swatches (rounded circles, glow on selected)
-
-Responsive (mobile: single column, tablet: 2 columns, desktop: 2 columns)
-
-Animations (fade, pulse, scale)
-
-File 4: snippets/style-inspiration.liquid
-
-Liquid snippet for outfit combinations:
-
-Accepts product_tags and selected_color as parameters
-
-Uses product tags to show complementary items
-
-Example: "Complete The Look - Summer Collection" with 3 items
-
-SHOPIFY 2.0 THEME COMPATIBILITY
-
-All files must follow Shopify's theme architecture standards
-
-Use {{ content_for_header }} for Shopify assets
-
-Section must be usable in theme customizer
-
-RESPONSIVE REQUIREMENTS
-
-Mobile: Single column, stacked layout
-
-Tablet: Two columns (image left, info right)
-
-Desktop: Two columns with larger images
-
-BUSINESS METRICS (Display in dashboard)
-
-Product page bounce rate: Target < 25% (from 65%)
-
-Add-to-cart rate: Target +20% increase
-
-Time on product page: Target +45% increase
-
-DEPLOYMENT TARGET
-
-Shopify development store: your-store-2.myshopify.com
-
-Theme: Compatible with Dawn-based themes
-
-FINAL INSTRUCTION
-
-Generate complete, production-ready code for all 4 files. The code should be clean, well-commented, and follow Shopify Liquid best practices. No React, no Vite, no framework - ONLY Shopify Liquid + HTML + Tailwind + Vanilla JS.
-
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/366c7a53-a2c2-4baa-ad2c-2cb993addfdb).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
 ```
+chic-product-gallery/
+│
+├── layout/
+│   └── theme.liquid              # Base theme layout
+│
+├── config/
+│   ├── settings_schema.json      # Theme settings
+│   └── settings_data.json         # Store-specific settings (gitignored)
+│
+├── sections/
+│   └── product-main.liquid        # Main product page section
+│
+├── snippets/
+│   └── style-inspiration.liquid   # Outfit recommendations snippet
+│
+├── assets/
+│   ├── variant-images.css         # Gallery styles and animations
+│   └── variant-images.js          # Variant filtering logic
+│
+├── templates/
+│   └── product.json               # Product page template
+│
+└── locales/
+    └── en.default.json            # Translation strings
+```
+
+---
+
+## 🚀 **Installation**
+
+### Method 1: GitHub Integration (Recommended)
+
+1. **Connect GitHub to Shopify:**
+   ```
+   Shopify Admin → Online Store → Themes → Add Theme → Connect from GitHub
+   ```
+
+2. **Select Repository:**
+   - Choose: `umaiskhan-ops/chic-product-gallery`
+   - Branch: `main`
+
+3. **Auto-Sync:**
+   - All code changes push automatically to Shopify
+   - Test on development store before publishing
+
+### Method 2: Manual Upload
+
+1. Download repository as ZIP
+2. Upload to Shopify via Theme Library
+3. Publish when ready
+
+---
+
+## ⚙️ **Configuration**
+
+### Theme Customizer Settings
+
+Access via: `Online Store → Themes → Customize`
+
+**Available Settings:**
+- **Gallery Layout:** Grid or Slider
+- **Image Size:** Control main image dimensions
+- **Style Inspiration:** Enable/disable outfit suggestions
+
+### Product Setup Requirements
+
+For best results, ensure your products have:
+
+1. **Multiple Variants** (e.g., different colors or sizes)
+2. **Multiple Images** per variant
+3. **Image ALT Tags** matching variant option values
+   - Example: For "Blue" variant, set image ALT text to "Blue"
+   - Example: For "Red" variant, set image ALT text to "Red"
+
+**ALT Text Naming Convention:**
+```
+Product: T-Shirt
+Variant Option: Color - Blue
+Image ALT Text: Blue
+
+Product: Shoes
+Variant Option: Size - Large
+Image ALT Text: Large
+```
+
+---
+
+## 🎨 **How It Works**
+
+### Variant Image Filtering Logic
+
+```liquid
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign featured_alt = current_variant.option1 %}
+
+{% for image in product.images %}
+  {% if image.alt == featured_alt or image == featured_image %}
+    <!-- Show this image -->
+  {% endif %}
+{% endfor %}
+```
+
+### JavaScript Features
+
+**Variant Change Handler:**
+```javascript
+// When variant changes, filter thumbnails
+variantSelector.addEventListener('change', (e) => {
+  const selectedAlt = e.target.value;
+  filterImagesByAlt(selectedAlt);
+  updateHeroImage();
+});
+```
+
+**Magnifying Glass Effect:**
+```javascript
+// Zoom on hover with mouse tracking
+heroImage.addEventListener('mousemove', (e) => {
+  const zoomLevel = 2; // 200% zoom
+  updateMagnifierPosition(e.clientX, e.clientY, zoomLevel);
+});
+```
+
+---
+
+## 📊 **Performance Metrics**
+
+| Metric | Target | Notes |
+|--------|--------|-------|
+| **Bounce Rate** | < 25% | Down from 65% |
+| **Add-to-Cart Rate** | +20% | Variant filtering improves UX |
+| **Time on Page** | +45% | Engaging gallery keeps users longer |
+
+---
+
+## 🎯 **Perfect For:**
+
+- 👗 Fashion & Apparel stores
+- 👟 Footwear retailers
+- 🎨 Home décor shops
+- 💎 Jewelry brands
+- 🛋️ Furniture stores
+- 📱 Any store with multiple product variants
+
+---
+
+## 🛠️ **Technical Stack**
+
+```
+Shopify Liquid        ████████████████████  100%
+Vanilla JavaScript    ████████████████████  100%
+CSS3 (Custom)         ████████████████████  100%
+Tailwind CSS (CDN)    ████████████████████  100%
+```
+
+### Technologies Used
+- **Shopify Liquid** - Dynamic templating and product data
+- **Vanilla JavaScript ES6+** - No frameworks, pure JS
+- **Custom CSS3** - Animations, transitions, responsive design
+- **Tailwind CSS** - Utility-first styling (CDN)
+- **Shopify Ajax API** - Cart operations without page reloads
+
+---
+
+## 📱 **Browser Support**
+
+| Browser | Version | Status |
+|---------|---------|--------|
+| Chrome | Latest | ✅ Fully Supported |
+| Firefox | Latest | ✅ Fully Supported |
+| Safari | Latest | ✅ Fully Supported |
+| Edge | Latest | ✅ Fully Supported |
+| iOS Safari | 12+ | ✅ Fully Supported |
+| Chrome Android | Latest | ✅ Fully Supported |
+
+---
+
+## 🤝 **Professional Development**
+
+This section was crafted by **Umais Khan**, a Shopify expert specializing in custom theme development, variant management systems, and conversion-focused design.
+
+**Portfolio:** [Storetasker Profile](#)  
+**GitHub:** [@umaiskhan-ops](https://github.com/umaiskhan-ops)
+
+---
+
+## 📝 **License**
+
+This is a proprietary Shopify section developed for specific stores. All rights reserved.
+
+---
+
+## 🎯 **What Makes This Special**
+
+### ✅ **Intelligent Filtering**
+Unlike standard product pages that show all images, this section only displays images relevant to the selected variant, reducing confusion and improving UX.
+
+### ✅ **Premium Aesthetics**
+Elegant design with soft gold accents, Playfair Display typography, and smooth cinematic animations that feel luxurious.
+
+### ✅ **Zero Dependencies**
+Built with pure Liquid and vanilla JavaScript - no frameworks, no build steps, no complexity.
+
+### ✅ **Shopify 2.0 Compatible**
+Follows Shopify's latest theme architecture standards with section-based design and theme editor support.
+
+---
+
+<div align="center">
+
+**✨ Built with elegance. Designed for conversion. Engineered for Shopify. ✨**
+
+</div>

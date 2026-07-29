@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-main",
+      "settings": {
+        "gallery_layout": "grid",
+        "image_size": "800x",
+        "show_style_inspiration": true
+      }
+    }
+  },
+  "order": ["main"]
+}
