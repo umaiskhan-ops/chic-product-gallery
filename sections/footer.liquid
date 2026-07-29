@@ -174,7 +174,7 @@
     <div class="footer-newsletter">
       <h3>Stay In Touch</h3>
       <p>Subscribe to get special offers, style inspiration, and much more.</p>
-      {% form 'customer', return_to: '/pages/newsletter-success' %}
+      {% form 'customer' %}
         <input type="hidden" name="contact[tags]" value="newsletter">
         <div class="newsletter-form">
           <input 
@@ -186,7 +186,7 @@
           <button type="submit" class="newsletter-button">Subscribe</button>
         </div>
         {%- if form.posted_successfully? -%}
-          <script>window.location.href = '/pages/newsletter-success';</script>
+          <p style="color: #16a34a; font-size: 14px; margin-top: 8px; font-weight: 600;">✓ Thanks! You're subscribed!</p>
         {%- endif -%}
         {%- if form.errors -%}
           <p style="color: #ef4444; font-size: 12px; margin-top: 8px;">Please enter a valid email address.</p>
