@@ -337,9 +337,15 @@
 .vig-qty__control input::-webkit-outer-spin-button,
 .vig-qty__control input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
+.vig-button-group {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
 .vig-atc {
   position: relative;
-  width: 100%;
+  flex: 1;
   padding: 17px 24px;
   border: 0;
   border-radius: 999px;
@@ -361,6 +367,52 @@
 }
 .vig-atc:disabled { opacity: 0.45; cursor: not-allowed; }
 .vig-atc.is-loading { pointer-events: none; opacity: 0.8; }
+
+.vig-call-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 17px 28px;
+  border: 2px solid var(--vig-gold);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--vig-gold);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s var(--vig-ease);
+  white-space: nowrap;
+}
+
+.vig-call-btn:hover {
+  background: var(--vig-gold);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(212, 165, 116, 0.35);
+}
+
+.vig-call-btn svg {
+  transition: transform 0.3s var(--vig-ease);
+}
+
+.vig-call-btn:hover svg {
+  transform: rotate(-15deg) scale(1.1);
+}
+
+@media (max-width: 640px) {
+  .vig-button-group {
+    flex-direction: column;
+  }
+  
+  .vig-call-btn {
+    width: 100%;
+  }
+}
 
 .vig-atc__spinner {
   display: inline-block;
