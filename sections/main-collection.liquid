@@ -366,13 +366,13 @@
         <div class="collection-sort">
           <span class="sort-label">Sort by:</span>
           <select class="sort-select" onchange="window.location.href=this.value">
-            <option value="{{ collection.url }}">Featured</option>
-            <option value="{{ collection.url }}?sort_by=title-ascending">A-Z</option>
-            <option value="{{ collection.url }}?sort_by=title-descending">Z-A</option>
-            <option value="{{ collection.url }}?sort_by=price-ascending">Price: Low to High</option>
-            <option value="{{ collection.url }}?sort_by=price-descending">Price: High to Low</option>
-            <option value="{{ collection.url }}?sort_by=created-descending">Newest</option>
-            <option value="{{ collection.url }}?sort_by=best-selling">Best Selling</option>
+            <option value="{{ collection.url }}" {% if collection.sort_by == collection.default_sort_by %}selected{% endif %}>Featured</option>
+            <option value="{{ collection.url }}?sort_by=title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>A-Z</option>
+            <option value="{{ collection.url }}?sort_by=title-descending" {% if collection.sort_by == 'title-descending' %}selected{% endif %}>Z-A</option>
+            <option value="{{ collection.url }}?sort_by=price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
+            <option value="{{ collection.url }}?sort_by=price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
+            <option value="{{ collection.url }}?sort_by=created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>Newest</option>
+            <option value="{{ collection.url }}?sort_by=best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
           </select>
         </div>
       </div>
