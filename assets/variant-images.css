@@ -449,6 +449,231 @@
 .vig-feature strong { font-weight: 600; }
 .vig-feature span { color: var(--vig-muted); }
 
+/* ---------------------------- Reviews & Rating ---------------------------- */
+
+.vig-reviews {
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid var(--vig-line);
+}
+
+.vig-reviews__summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.vig-reviews__stars {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vig-star-rating {
+  display: flex;
+  gap: 4px;
+}
+
+.vig-star {
+  color: #e9ecef;
+  transition: color 0.2s ease;
+}
+
+.vig-star.is-filled {
+  color: var(--vig-gold);
+}
+
+.vig-reviews__avg {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--vig-ink);
+}
+
+.vig-reviews__count {
+  font-size: 14px;
+  color: var(--vig-muted);
+}
+
+.vig-reviews__write-btn {
+  padding: 12px 24px;
+  border: 2px solid var(--vig-gold);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--vig-gold);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s var(--vig-ease);
+}
+
+.vig-reviews__write-btn:hover {
+  background: var(--vig-gold);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.vig-reviews__list {
+  margin-bottom: 24px;
+}
+
+.vig-reviews__empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--vig-muted);
+  font-size: 15px;
+  background: var(--vig-gray);
+  border-radius: 12px;
+}
+
+.vig-review-form {
+  background: var(--vig-gray);
+  border-radius: 16px;
+  padding: 32px 28px;
+  margin-top: 24px;
+}
+
+.vig-review-form__title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 24px;
+}
+
+.vig-form-group {
+  margin-bottom: 20px;
+}
+
+.vig-form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--vig-ink);
+}
+
+.vig-required {
+  color: #c0392b;
+}
+
+.vig-star-input {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.vig-star-btn {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.2s var(--vig-ease);
+}
+
+.vig-star-btn svg {
+  fill: #e9ecef;
+  transition: fill 0.2s ease;
+}
+
+.vig-star-btn:hover svg,
+.vig-star-btn.is-active svg {
+  fill: var(--vig-gold);
+}
+
+.vig-star-btn:hover {
+  transform: scale(1.15);
+}
+
+.vig-form-group input[type="text"],
+.vig-form-group input[type="email"],
+.vig-form-group textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--vig-line);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 15px;
+  background: #fff;
+  transition: border-color 0.3s ease;
+}
+
+.vig-form-group input:focus,
+.vig-form-group textarea:focus {
+  outline: none;
+  border-color: var(--vig-gold);
+}
+
+.vig-form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.vig-form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.vig-btn-cancel,
+.vig-btn-submit {
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s var(--vig-ease);
+}
+
+.vig-btn-cancel {
+  border: 1px solid var(--vig-line);
+  background: #fff;
+  color: var(--vig-muted);
+}
+
+.vig-btn-cancel:hover {
+  border-color: var(--vig-ink);
+  color: var(--vig-ink);
+}
+
+.vig-btn-submit {
+  border: 0;
+  background: var(--vig-ink);
+  color: #fff;
+}
+
+.vig-btn-submit:hover {
+  background: var(--vig-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(212, 165, 116, 0.3);
+}
+
+@media (max-width: 640px) {
+  .vig-reviews__summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .vig-review-form {
+    padding: 24px 20px;
+  }
+  
+  .vig-form-actions {
+    flex-direction: column;
+  }
+  
+  .vig-btn-cancel,
+  .vig-btn-submit {
+    width: 100%;
+  }
+}
+
 /* ---------------------------- Style inspiration ---------------------------- */
 
 .vig-inspo {

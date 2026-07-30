@@ -215,6 +215,73 @@
           <div class="vig-description rte">{{ product.description }}</div>
         {%- endif -%}
 
+        {% comment %} ---------- RATING & REVIEWS ---------- {% endcomment %}
+        <div class="vig-reviews">
+          <div class="vig-reviews__summary">
+            <div class="vig-reviews__stars">
+              <span class="vig-star-rating" data-rating="{{ section.settings.average_rating }}">
+                {% for i in (1..5) %}
+                  <svg class="vig-star {% if i <= section.settings.average_rating %}is-filled{% endif %}" viewBox="0 0 24 24" width="20" height="20">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
+                  </svg>
+                {% endfor %}
+              </span>
+              <span class="vig-reviews__avg">{{ section.settings.average_rating }}.0</span>
+              <span class="vig-reviews__count">({{ section.settings.review_count }} reviews)</span>
+            </div>
+            <button type="button" class="vig-reviews__write-btn" data-write-review>Write a Review</button>
+          </div>
+
+          <div class="vig-reviews__list" data-reviews-list>
+            {% comment %} Reviews will be populated here {% endcomment %}
+            <p class="vig-reviews__empty">No reviews yet. Be the first to review this product!</p>
+          </div>
+
+          <div class="vig-review-form" data-review-form hidden>
+            <h3 class="vig-review-form__title">Write Your Review</h3>
+            <form class="vig-review-form__content">
+              <div class="vig-form-group">
+                <label>Your Rating <span class="vig-required">*</span></label>
+                <div class="vig-star-input">
+                  {% for i in (1..5) %}
+                    <button type="button" class="vig-star-btn" data-star-value="{{ i }}">
+                      <svg viewBox="0 0 24 24" width="28" height="28">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                      </svg>
+                    </button>
+                  {% endfor %}
+                </div>
+                <input type="hidden" name="rating" data-rating-input required>
+              </div>
+
+              <div class="vig-form-group">
+                <label for="review-name">Your Name <span class="vig-required">*</span></label>
+                <input type="text" id="review-name" name="name" required>
+              </div>
+
+              <div class="vig-form-group">
+                <label for="review-email">Your Email <span class="vig-required">*</span></label>
+                <input type="email" id="review-email" name="email" required>
+              </div>
+
+              <div class="vig-form-group">
+                <label for="review-title">Review Title <span class="vig-required">*</span></label>
+                <input type="text" id="review-title" name="title" placeholder="Sum up your experience" required>
+              </div>
+
+              <div class="vig-form-group">
+                <label for="review-body">Your Review <span class="vig-required">*</span></label>
+                <textarea id="review-body" name="body" rows="5" placeholder="Share your thoughts about this product..." required></textarea>
+              </div>
+
+              <div class="vig-form-actions">
+                <button type="button" class="vig-btn-cancel" data-cancel-review>Cancel</button>
+                <button type="submit" class="vig-btn-submit">Submit Review</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
         {%- if section.blocks.size > 0 -%}
           <ul class="vig-features">
             {%- for block in section.blocks -%}
@@ -260,6 +327,73 @@
   </script>
 </section>
 
+<script>
+// Review Form Toggle
+document.querySelector('[data-write-review]')?.addEventListener('click', () => {
+  const form = document.querySelector('[data-review-form]');
+  form.hidden = !form.hidden;
+  if (!form.hidden) {
+    form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+});
+
+document.querySelector('[data-cancel-review]')?.addEventListener('click', () => {
+  document.querySelector('[data-review-form]').hidden = true;
+});
+
+// Star Rating Input
+const starButtons = document.querySelectorAll('.vig-star-btn');
+const ratingInput = document.querySelector('[data-rating-input]');
+
+starButtons.forEach((btn, index) => {
+  btn.addEventListener('click', () => {
+    const value = parseInt(btn.dataset.starValue);
+    ratingInput.value = value;
+    
+    starButtons.forEach((b, i) => {
+      if (i < value) {
+        b.classList.add('is-active');
+      } else {
+        b.classList.remove('is-active');
+      }
+    });
+  });
+  
+  btn.addEventListener('mouseenter', () => {
+    const value = parseInt(btn.dataset.starValue);
+    starButtons.forEach((b, i) => {
+      if (i < value) {
+        b.querySelector('svg').style.fill = 'var(--vig-gold)';
+      }
+    });
+  });
+});
+
+document.querySelector('.vig-star-input')?.addEventListener('mouseleave', () => {
+  const currentRating = parseInt(ratingInput.value) || 0;
+  starButtons.forEach((b, i) => {
+    if (i >= currentRating) {
+      b.querySelector('svg').style.fill = '#e9ecef';
+    }
+  });
+});
+
+// Form Submission (placeholder - integrate with your review app)
+document.querySelector('.vig-review-form__content')?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const data = Object.fromEntries(formData);
+  
+  console.log('Review submitted:', data);
+  alert('Thank you for your review! It will be published after moderation.');
+  
+  e.target.reset();
+  document.querySelector('[data-review-form]').hidden = true;
+  ratingInput.value = '';
+  starButtons.forEach(b => b.classList.remove('is-active'));
+});
+</script>
+
 <script src="{{ 'variant-images.js' | asset_url }}" defer></script>
 
 {% schema %}
@@ -274,6 +408,23 @@
       "label": "Phone Number",
       "default": "+1234567890",
       "info": "Enter phone number with country code (e.g., +1234567890)"
+    },
+    {
+      "type": "range",
+      "id": "average_rating",
+      "label": "Average Rating",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5,
+      "info": "Display average rating (1-5 stars)"
+    },
+    {
+      "type": "number",
+      "id": "review_count",
+      "label": "Number of Reviews",
+      "default": 48,
+      "info": "Display review count"
     },
     {
       "type": "select",
