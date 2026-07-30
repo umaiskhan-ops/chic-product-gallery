@@ -539,8 +539,8 @@ This theme is proprietary software. Unauthorized copying, distribution, modifica
 ## 🌐 Links & Resources
 
 ### Live Store
-**URL:** [https://umais-frontend-beast.myshopify.com](https://umais-frontend-beast.myshopify.com)  
-**Password:** `bpitt`
+**URL:** [https://6r0rni-d0.myshopify.com](https://6r0rni-d0.myshopify.com)  
+**Password:** `123`
 
 ### Repository
 **GitHub:** [https://github.com/umaiskhan-ops/chic-product-gallery](https://github.com/umaiskhan-ops/chic-product-gallery)
