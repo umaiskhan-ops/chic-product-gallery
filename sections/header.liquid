@@ -79,6 +79,76 @@
     padding: 8px;
   }
   
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    max-width: 320px;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s ease;
+    z-index: 1000;
+    overflow-y: auto;
+  }
+  
+  .mobile-menu.active {
+    left: 0;
+  }
+  
+  .mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .mobile-menu-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+  }
+  
+  .mobile-menu-nav {
+    padding: 20px;
+  }
+  
+  .mobile-menu-nav a {
+    display: block;
+    padding: 12px 0;
+    color: #1a1a1a;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 1px solid #e9ecef;
+    transition: color 0.3s ease;
+  }
+  
+  .mobile-menu-nav a:hover {
+    color: #d4a574;
+  }
+  
+  .mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 999;
+  }
+  
+  .mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
   @media (max-width: 768px) {
     .header-nav {
       display: none;
@@ -122,14 +192,60 @@
   </div>
 </header>
 
+<!-- Mobile Menu -->
+<div class="mobile-menu-overlay" data-mobile-overlay></div>
+<div class="mobile-menu" data-mobile-menu>
+  <div class="mobile-menu-header">
+    <span class="header-logo">CHIC GALLERY</span>
+    <button class="mobile-menu-close" data-mobile-close aria-label="Close menu">
+      <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+  <nav class="mobile-menu-nav">
+    {%- for link in linklists['main-menu'].links -%}
+      <a href="{{ link.url }}">{{ link.title }}</a>
+    {%- endfor -%}
+  </nav>
+</div>
+
 <script>
   const header = document.querySelector('[data-header]');
+  const mobileToggle = document.querySelector('.mobile-menu-toggle');
+  const mobileMenu = document.querySelector('[data-mobile-menu]');
+  const mobileOverlay = document.querySelector('[data-mobile-overlay]');
+  const mobileClose = document.querySelector('[data-mobile-close]');
+  
+  // Scroll effect
   window.addEventListener('scroll', () => {
     if (window.scrollY > 20) {
       header.classList.add('scrolled');
     } else {
       header.classList.remove('scrolled');
     }
+  });
+  
+  // Mobile menu toggle
+  function openMobileMenu() {
+    mobileMenu.classList.add('active');
+    mobileOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('active');
+    mobileOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  
+  mobileToggle?.addEventListener('click', openMobileMenu);
+  mobileClose?.addEventListener('click', closeMobileMenu);
+  mobileOverlay?.addEventListener('click', closeMobileMenu);
+  
+  // Close menu on link click
+  document.querySelectorAll('.mobile-menu-nav a').forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
   });
 </script>
 
